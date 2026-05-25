@@ -1,8 +1,10 @@
+'use client';
+
 import { LayoutDashboard, FileText, Megaphone, Cpu, Tags, Users, Settings } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface SidebarProps {
-  activeTab: string;
-  setActiveTab: (tab: any) => void;
   counts: {
     news: number;
     ads: number;
@@ -11,15 +13,17 @@ interface SidebarProps {
   };
 }
 
-export function DashboardSidebar({ activeTab, setActiveTab, counts }: SidebarProps) {
+export function DashboardSidebar({ counts }: SidebarProps) {
+  const pathname = usePathname();
+
   const navItems = [
-    { id: 'overview', label: 'ড্যাশবোর্ড ওভারভিউ', icon: LayoutDashboard },
-    { id: 'news', label: 'সংবাদ ব্যবস্থাপনা', icon: FileText, count: counts.news },
-    { id: 'categories', label: 'ক্যাটাগরি ম্যানেজমেন্ট', icon: Tags, count: counts.categories },
-    { id: 'ads', label: 'বিজ্ঞাপন প্যানেল', icon: Megaphone, count: counts.ads },
-    { id: 'crawler', label: 'নিউজ ক্রলার কন্ট্রোল', icon: Cpu },
-    { id: 'users', label: 'ইউজার ম্যানেজমেন্ট', icon: Users, count: counts.users },
-    { id: 'settings', label: 'সাইট সেটিংস', icon: Settings },
+    { id: 'overview', label: 'ড্যাশবোর্ড ওভারভিউ', icon: LayoutDashboard, path: '/admin' },
+    { id: 'news', label: 'সংবাদ ব্যবস্থাপনা', icon: FileText, count: counts.news, path: '/admin/news' },
+    { id: 'categories', label: 'ক্যাটাগরি ম্যানেজমেন্ট', icon: Tags, count: counts.categories, path: '/admin/categories' },
+    { id: 'ads', label: 'বিজ্ঞাপন প্যানেল', icon: Megaphone, count: counts.ads, path: '/admin/ads' },
+    { id: 'crawler', label: 'নিউজ ক্রলার কন্ট্রোল', icon: Cpu, path: '/admin/crawler' },
+    { id: 'users', label: 'ইউজার ম্যানেজমেন্ট', icon: Users, count: counts.users, path: '/admin/users' },
+    { id: 'settings', label: 'সাইট সেটিংস', icon: Settings, path: '/admin/settings' },
   ];
 
   return (
@@ -31,12 +35,14 @@ export function DashboardSidebar({ activeTab, setActiveTab, counts }: SidebarPro
         <ul className="space-y-1 px-2 flex md:flex-col overflow-x-auto md:overflow-visible">
           {navItems.map(item => {
             const Icon = item.icon;
-            const isActive = activeTab === item.id;
+            // Exact match for overview, prefix match for others
+            const isActive = item.path === '/admin' ? pathname === '/admin' : pathname.startsWith(item.path);
+            
             return (
               <li key={item.id} className="shrink-0">
-                <button
-                  onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-bold text-sm cursor-pointer whitespace-nowrap md:whitespace-normal ${
+                <Link
+                  href={item.path}
+                  className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors font-bold text-sm whitespace-nowrap md:whitespace-normal ${
                     isActive 
                       ? 'bg-red-50 text-red-700 border border-red-100 shadow-sm' 
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border border-transparent'
@@ -51,7 +57,7 @@ export function DashboardSidebar({ activeTab, setActiveTab, counts }: SidebarPro
                       {item.count}
                     </span>
                   )}
-                </button>
+                </Link>
               </li>
             );
           })}
