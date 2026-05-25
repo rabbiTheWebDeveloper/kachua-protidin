@@ -31,7 +31,10 @@ export const metadata: Metadata = {
   keywords: [
     'কচুয়া প্রতিদিন', 'Kachua Protidin', 'কচুয়া নিউজ', 'বাগেরহাট খবর', 'কচুয়া বাগেরহাট সংবাদ', 
     'Bagerhat News', 'Kachua News Portal', 'বাগেরহাট জেলার খবর', 'বাগেরহাট ব্রেকিং নিউজ', 
-    'বাংলাদেশ খবর', 'Prothom Alo Scraper BD', 'সর্বশেষ বাংলা খবর', 'অনলাইন খবর বাগেরহাট'
+    'বাংলাদেশ খবর', 'Prothom Alo Scraper BD', 'সর্বশেষ বাংলা খবর', 'অনলাইন খবর বাগেরহাট',
+    'কচুয়া বাগেরহাট', 'বাগেরহাট কচুয়ার খবর', 'কচুয়া উপজেলার সর্বশেষ সংবাদ', 'বাগেরহাটের স্থানীয় পত্রিকা',
+    'Bagerhat Local Newspaper', 'Kachua Upazila Breaking News', 'Bagerhat Kachua live news',
+    'কচুয়া অনলাইন নিউজ', 'বাগেরহাট অনলাইন পোর্টাল'
   ],
   authors: [{ name: 'কচুয়া প্রতিদিন বার্তা কক্ষ' }],
   creator: 'কচুয়া প্রতিদিন টেকনিক্যাল টিম',
