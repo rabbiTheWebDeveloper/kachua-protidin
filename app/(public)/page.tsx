@@ -498,7 +498,47 @@ export default function Page() {
           },
           "query-input": "required name=search_term_string"
         }
-      }
+      },
+      ...(leadNews ? [{
+        "@type": "NewsArticle",
+        "@id": `https://kachuaprotidin.com/news/${leadNews._id}#article`,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": `https://kachuaprotidin.com/news/${leadNews._id}`
+        },
+        "headline": leadNews.title,
+        "image": [leadNews.imgUrl],
+        "datePublished": leadNews.publishDate || new Date().toISOString(),
+        "dateModified": leadNews.publishDate || new Date().toISOString(),
+        "author": {
+          "@type": "Person",
+          "name": leadNews.author || "নিজস্ব প্রতিবেদক"
+        },
+        "publisher": {
+          "@id": "https://kachuaprotidin.com/#organization"
+        },
+        "description": leadNews.content.slice(0, 150) + "..."
+      }] : []),
+      ...subStories.map(story => ({
+        "@type": "NewsArticle",
+        "@id": `https://kachuaprotidin.com/news/${story._id}#article`,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": `https://kachuaprotidin.com/news/${story._id}`
+        },
+        "headline": story.title,
+        "image": [story.imgUrl],
+        "datePublished": story.publishDate || new Date().toISOString(),
+        "dateModified": story.publishDate || new Date().toISOString(),
+        "author": {
+          "@type": "Person",
+          "name": story.author || "নিজস্ব প্রতিবেদক"
+        },
+        "publisher": {
+          "@id": "https://kachuaprotidin.com/#organization"
+        },
+        "description": story.content.slice(0, 150) + "..."
+      }))
     ]
   };
 

@@ -141,5 +141,41 @@ export default async function ArticleDetailPage(
     );
   }
 
-  return <ArticleDetailClient article={article} sourceLabel={sourceLabel} />;
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://kachuaprotidin.com/news/${article._id}`
+    },
+    "headline": article.title,
+    "image": [article.imgUrl],
+    "datePublished": article.publishDate || new Date().toISOString(),
+    "dateModified": article.publishDate || new Date().toISOString(),
+    "author": {
+      "@type": "Person",
+      "name": article.author || "নিজস্ব প্রতিবেদক",
+      "url": "https://kachuaprotidin.com"
+    },
+    "publisher": {
+      "@type": "NewsMediaOrganization",
+      "name": "কচুয়া প্রতিদিন",
+      "url": "https://kachuaprotidin.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=400&q=80"
+      }
+    },
+    "description": article.content.substring(0, 160).replace(/\r?\n/g, ' ') + '...'
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <ArticleDetailClient article={article} sourceLabel={sourceLabel} />
+    </>
+  );
 }

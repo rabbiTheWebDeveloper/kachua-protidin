@@ -22,23 +22,50 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'কচুয়া প্রতিদিন | চাঁদপুর জেলার সর্বপ্রথম ও সর্বাধুনিক অনলাইন নিউজ পোর্টাল',
-  description: 'কচুয়া প্রতিদিন (Kachua Protidin) চাঁদপুর জেলার কচুয়া উপজেলার স্থানীয় খবর, রাজনীতি, সমাজ, খেলাধুলা, শিক্ষা ও ঐতিহ্যবাহী জীবনযাত্রার নির্ভরযোগ্য ও বস্তুনিষ্ঠ নিউজ পোর্টাল।',
-  keywords: ['কচুয়া প্রতিদিন', 'Kachua Protidin', 'কচুয়া নিউজ', 'চাঁদপুর খবর', 'কচুয়া চাঁদপুর সংবাদ', 'Chandpur News', 'Kachua News Portal', 'চাঁদপুর জেলার খবর'],
+  metadataBase: new URL('https://kachuaprotidin.com'),
+  title: {
+    default: 'কচুয়া প্রতিদিন | চাঁদপুর জেলার সর্বাধুনিক অনলাইন নিউজ পোর্টাল',
+    template: '%s | কচুয়া প্রতিদিন'
+  },
+  description: 'কচুয়া প্রতিদিন (Kachua Protidin) চাঁদপুর জেলার সর্বাধুনিক ও সর্বপ্রথম অনলাইন নিউজ পোর্টাল। কচুয়া উপজেলার স্থানীয় খবর, রাজনীতি, সমাজ, খেলাধুলা, শিক্ষা ও ঐতিহ্যবাহী চাঁদপুরের বস্তুনিষ্ঠ খবরের নির্ভরযোগ্য মুখপত্র।',
+  keywords: [
+    'কচুয়া প্রতিদিন', 'Kachua Protidin', 'কচুয়া নিউজ', 'চাঁদপুর খবর', 'কচুয়া চাঁদপুর সংবাদ', 
+    'Chandpur News', 'Kachua News Portal', 'চাঁদপুর জেলার খবর', 'চাঁদপুর ব্রেকিং নিউজ', 
+    'বাংলাদেশ খবর', 'Prothom Alo Scraper BD', 'সর্বশেষ বাংলা খবর', 'অনলাইন খবর চাঁদপুর'
+  ],
+  authors: [{ name: 'কচুয়া প্রতিদিন বার্তা কক্ষ' }],
+  creator: 'কচুয়া প্রতিদিন টেকনিক্যাল টিম',
+  publisher: 'কচুয়া প্রতিদিন',
   alternates: {
-    canonical: 'https://kachuaprotidin.com',
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   openGraph: {
     title: 'কচুয়া প্রতিদিন | চাঁদপুর জেলার সর্বাধুনিক অনলাইন নিউজ পোর্টাল',
-    description: 'কচুয়া প্রতিদিন চাঁদপুর জেলার কচুয়া উপজেলার স্থানীয় খবর, রাজনীতি, সমাজ, খেলাধুলা ও বস্তুনিষ্ঠ সংবাদের নির্ভরযোগ্য মাধ্যম।',
+    description: 'চাঁদপুর জেলার কচুয়া উপজেলার স্থানীয় খবর, রাজনীতি, সমাজ, খেলাধুলা ও বস্তুনিষ্ঠ সংবাদের নির্ভরযোগ্য ও বিশ্বস্ত মুখপত্র।',
     siteName: 'কচুয়া প্রতিদিন',
     locale: 'bn_BD',
     type: 'website',
+    url: 'https://kachuaprotidin.com',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'কচুয়া প্রতিদিন | চাঁদপুর জেলার সর্বাধুনিক অনলাইন নিউজ পোর্টাল',
-    description: 'কচুয়া প্রতিদিন চাঁদপুর জেলার কচুয়া উপজেলার স্থানীয় খবর, রাজনীতি, সমাজ, খেলাধুলা ও বস্তুনিষ্ঠ সংবাদের নির্ভরযোগ্য মাধ্যম।',
+    description: 'চাঁদপুর জেলার কচুয়া উপজেলার স্থানীয় খবর, রাজনীতি, সমাজ, খেলাধুলা ও বস্তুনিষ্ঠ সংবাদের নির্ভরযোগ্য ও বিশ্বস্ত মুখপত্র।',
+    creator: '@kachuaprotidin',
+  },
+  verification: {
+    google: 'google-site-verification-placeholder-token-2026',
   }
 };
 
