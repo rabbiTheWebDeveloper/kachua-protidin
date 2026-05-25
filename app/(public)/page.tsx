@@ -473,11 +473,11 @@ export default function Page() {
         "alternateName": "Kachua Protidin",
         "url": "https://kachuaprotidin.com",
         "logo": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=400&q=80",
-        "description": "চাঁদপুর জেলার কচুয়া উপজেলার স্থানীয় খবর, রাজনীতি, সমাজ, খেলাধুলা ও বস্তুনিষ্ঠ সংবাদের নির্ভরযোগ্য অনলাইন নিউজ পোর্টাল।",
+        "description": "বাগেরহাট জেলার কচুয়া উপজেলার স্থানীয় খবর, রাজনীতি, সমাজ, খেলাধুলা ও বস্তুনিষ্ঠ সংবাদের নির্ভরযোগ্য অনলাইন নিউজ পোর্টাল।",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "কচুয়া",
-          "addressRegion": "চাঁদপুর",
+          "addressRegion": "বাগেরহাট",
           "addressCountry": "BD"
         }
       },
@@ -486,7 +486,7 @@ export default function Page() {
         "@id": "https://kachuaprotidin.com/#website",
         "url": "https://kachuaprotidin.com",
         "name": "কচুয়া প্রতিদিন",
-        "description": "চাঁদপুর জেলার সর্বপ্রথম ও সর্বাধুনিক অনলাইন নিউজ পোর্টাল",
+        "description": "বাগেরহাট জেলার সর্বপ্রথম ও সর্বাধুনিক অনলাইন নিউজ পোর্টাল",
         "publisher": {
           "@id": "https://kachuaprotidin.com/#organization"
         },
@@ -1038,7 +1038,7 @@ export default function Page() {
            <div>
              <h3 className="text-lg font-bold mb-6 text-white uppercase tracking-wider font-sans border-b-2 border-white/20 pb-2 inline-block">যোগাযোগ</h3>
              <div className="space-y-3 text-gray-300 font-medium text-sm font-sans">
-               <p className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-red-500 shrink-0" /> কচুয়া, চাঁদপুর, বাংলাদেশ</p>
+               <p className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-red-500 shrink-0" /> কচুয়া, বাগেরহাট, বাংলাদেশ</p>
                <p>ইমেইল: info@kachuaprotidin.com</p>
                <p>ফোন: +৮৮০ ১২৩৪-৫৬৭৮৯০</p>
              </div>
@@ -1066,7 +1066,7 @@ export default function Page() {
                 কচুয়া প্রতিদিন
               </h1>
               <div className="flex justify-between items-center text-xs mt-2 font-mono uppercase tracking-widest border-t border-black/15 pt-2">
-                <span>স্থান: কচুয়া, চাঁদপুর</span>
+                <span>স্থান: কচুয়া, বাগেরহাট</span>
                 <span>তারিখ: রবি, ২৪ মে ২০২৬</span>
                 <span>ওয়েব: kachuaprotidin.com</span>
               </div>

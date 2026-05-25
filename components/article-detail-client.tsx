@@ -251,7 +251,7 @@ export function ArticleDetailClient({ article, sourceLabel }: ArticleDetailClien
           <div>
             <h4 className="text-white text-[15px] font-bold tracking-tight mb-4">যোগাযোগ</h4>
             <div className="space-y-2 text-xs">
-              <p className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-red-500 shrink-0" /> কচুয়া, চাঁদপুর, বাংলাদেশ</p>
+              <p className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-red-500 shrink-0" /> কচুয়া, বাগেরহাট, বাংলাদেশ</p>
               <p>ইমেইল: info@kachuaprotidin.com</p>
               <p className="text-[11px] text-gray-500 mt-4">© ২০২৬ কচুয়া প্রতিদিন। সমস্ত স্বত্ব সংরক্ষিত।</p>
             </div>

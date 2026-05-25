@@ -16,8 +16,8 @@ export function WeatherWidget() {
   useEffect(() => {
     async function fetchWeather() {
       try {
-        // Coordinates for Kachua, Chandpur (Approx: 23.35, 90.89)
-        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=23.3506&longitude=90.8928&current_weather=true');
+        // Coordinates for Kachua, Bagerhat (Approx: 22.65, 89.89)
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=22.65&longitude=89.89&current_weather=true');
         if (!res.ok) throw new Error('Weather API failed');
         const data = await res.json();
         
