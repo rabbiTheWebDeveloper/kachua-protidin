@@ -1,0 +1,6 @@
+{
+  "name": "Kachua Protidin",
+  "description": "Kachua Protidin News Portal with Live MongoDB Database Integration, Interactive Admin Controls, Route Group Segregation, and Real-Time Weather Widgets",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
