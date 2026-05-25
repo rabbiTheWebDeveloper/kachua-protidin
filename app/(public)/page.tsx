@@ -456,6 +456,13 @@ export default function Page() {
       .sort((a, b) => b.count - a.count);
   })();
 
+  // 4 Ad Options Extraction
+  const activeAds = ads.filter(a => a.isActive);
+  const topBannerAd = activeAds.find(a => a.position === 'top_banner');
+  const sidebarAd = activeAds.find(a => a.position === 'sidebar');
+  const inFeedAd = activeAds.find(a => a._id !== topBannerAd?._id && a._id !== sidebarAd?._id) || topBannerAd;
+  const bottomBannerAd = activeAds.find(a => a._id !== topBannerAd?._id && a._id !== sidebarAd?._id && a._id !== inFeedAd?._id) || sidebarAd || topBannerAd;
+
   const siteSchemaData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -689,6 +696,16 @@ export default function Page() {
         </div>
       </div>
 
+      {/* AD SLOT 1: TOP BANNER */}
+      {topBannerAd && (
+        <div className="max-w-7xl mx-auto px-4 py-4 w-full text-center">
+          <a href={topBannerAd.linkUrl} target="_blank" rel="noopener noreferrer" className="block relative w-full h-[90px] md:h-[120px] bg-gray-100 overflow-hidden border border-gray-200">
+            <LazyImage src={topBannerAd.imgUrl} alt={topBannerAd.title} fill className="object-cover w-full h-full" referrerPolicy="no-referrer" />
+            <span className="absolute top-0 right-0 bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded-bl">বিজ্ঞাপন</span>
+          </a>
+        </div>
+      )}
+
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 py-6 w-full flex-1">
         {loading ? (
@@ -708,8 +725,8 @@ export default function Page() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 hover:no-underline">
             
-            {/* Left/Main Column (9 Cols on large) */}
-            <div className="lg:col-span-9">
+            {/* Left/Main Column (8 Cols on large) */}
+            <div className="lg:col-span-8">
               
               {/* Lead Story Section */}
               {leadNews && (
@@ -802,35 +819,52 @@ export default function Page() {
                 </div>
               )}
  
+              {/* AD SLOT 2: IN-FEED BANNER */}
+              {inFeedAd && (
+                <div className="w-full text-center mb-8">
+                  <a href={inFeedAd.linkUrl} target="_blank" rel="noopener noreferrer" className="block relative w-full h-[90px] md:h-[120px] bg-gray-100 overflow-hidden border border-gray-200">
+                    <LazyImage src={inFeedAd.imgUrl} alt={inFeedAd.title} fill className="object-cover w-full h-full" referrerPolicy="no-referrer" />
+                    <span className="absolute top-0 right-0 bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded-bl">বিজ্ঞাপন</span>
+                  </a>
+                </div>
+              )}
+ 
+              {/* Section Header */}
+              <div className="flex items-center justify-between border-b-[3px] border-black pb-2 mb-6 mt-8">
+                <h2 className="text-2xl font-[900] text-gray-900 leading-none" style={{ fontFamily: 'var(--font-serif-bangla)' }}>
+                  অন্যান্য শীর্ষ সংবাদ
+                </h2>
+              </div>
+
               {/* Bottom Grid for Secondary Stories */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pb-6 animate-fade-in">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-x-8 gap-y-10 pb-6 animate-fade-in">
                 {secondaryStories.map(story => (
                   <div 
                     key={story._id} 
                     onClick={() => setSelectedArticle(story)}
-                    className="flex flex-col group cursor-pointer border-b border-gray-200 sm:border-b-0 sm:border-r last:sm:border-r-0 border-gray-200 pb-4 sm:pb-0 sm:pr-4 last:sm:pr-0"
+                    className="flex flex-col group cursor-pointer border-b border-gray-200 pb-4 md:border-b-0 md:pb-0"
                   >
                      <div className="relative w-full aspect-[3/2] mb-3 overflow-hidden rounded bg-gray-100 border border-gray-200">
                        <LazyImage src={story.imgUrl} alt={story.title} fill className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
-                       <span className="absolute top-2 left-2 bg-gray-800/80 text-white text-[10px] uppercase font-bold px-2 py-0.5 rounded z-20">
+                       <span className="absolute top-2 left-2 bg-red-700 text-white text-[10px] uppercase font-bold px-2 py-0.5 rounded z-20 shadow-sm">
                          {story.category}
                        </span>
                      </div>
-                     <h3 className="text-[19px] font-bold text-gray-900 group-hover:text-blue-700 leading-snug transition-colors mb-2" style={{ fontFamily: 'var(--font-serif-bangla)' }}>
+                     <h3 className="text-[20px] font-bold text-gray-900 group-hover:text-red-700 leading-snug transition-colors mb-2" style={{ fontFamily: 'var(--font-serif-bangla)' }}>
                         {story.title}
                      </h3>
-                     <p className="text-gray-650 text-[14px] line-clamp-3 leading-relaxed mb-4">
+                     <p className="text-gray-600 text-[15px] line-clamp-2 leading-relaxed mb-4 font-bangla">
                        {story.content}
                      </p>
                      
                      <div className="flex justify-between items-center text-gray-400 text-[12px] mt-auto pt-2 border-t border-gray-150/40 no-print">
-                       <span>{story.time}</span>
+                       <span className="font-medium">{story.time}</span>
                        <button 
                          onClick={(e) => handlePrint(e, story)}
-                         className="text-gray-400 hover:text-red-700 flex items-center justify-center p-1 hover:bg-gray-100 rounded transition-all cursor-pointer"
+                         className="text-gray-400 hover:text-red-700 flex items-center justify-center p-1.5 hover:bg-gray-100 rounded transition-all cursor-pointer"
                          title="প্রিন্ট করুন"
                        >
-                         <Printer className="w-3.5 h-3.5 text-gray-400 hover:text-red-700 animate-pulse" />
+                         <Printer className="w-3.5 h-3.5" />
                        </button>
                      </div>
                   </div>
@@ -838,8 +872,41 @@ export default function Page() {
               </div>
  
             </div>
- 
-     
+            
+            {/* Right Sidebar (4 Cols) */}
+            <div className="lg:col-span-4 space-y-8 animate-fade-in">
+              {/* AD SLOT 3: SIDEBAR AD */}
+              {sidebarAd && (
+                <div className="w-full text-center sticky top-[140px] z-10">
+                  <a href={sidebarAd.linkUrl} target="_blank" rel="noopener noreferrer" className="block relative w-full aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                    <LazyImage src={sidebarAd.imgUrl} alt={sidebarAd.title} fill className="object-cover w-full h-full" referrerPolicy="no-referrer" />
+                    <span className="absolute top-2 right-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded">বিজ্ঞাপন</span>
+                  </a>
+                </div>
+              )}
+
+              {/* Weather Widget */}
+              <WeatherWidget />
+
+              {/* Trending Topics */}
+              <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                <h3 className="font-bold text-lg text-gray-900 border-b-2 border-red-700 pb-2 mb-4 font-bangla flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-red-600" />
+                  <span>ট্রেন্ডিং বিষয়</span>
+                </h3>
+                <ul className="space-y-2">
+                  {trendingTopics.slice(0, 6).map((topic, i) => (
+                    <li key={topic.name} className="flex justify-between items-center py-2.5 border-b border-gray-100 last:border-0 hover:bg-gray-50 px-2 rounded cursor-pointer transition-colors" onClick={() => setSelectedCategory(topic.name)}>
+                      <span className="font-bold text-gray-800 font-bangla">{topic.name}</span>
+                      <span className="bg-red-50 text-red-700 text-[11px] px-2 py-0.5 rounded-full font-mono font-bold">{topic.count}</span>
+                    </li>
+                  ))}
+                  {trendingTopics.length === 0 && (
+                    <li className="text-sm text-gray-400 italic">কোনো ট্রেন্ডিং বিষয় নেই</li>
+                  )}
+                </ul>
+              </div>
+            </div>
  
           </div>
         )}
@@ -868,6 +935,16 @@ export default function Page() {
            </div>
         </div>
  
+        {/* AD SLOT 4: BOTTOM BANNER */}
+        {bottomBannerAd && (
+          <div className="max-w-7xl mx-auto py-8 w-full text-center">
+            <a href={bottomBannerAd.linkUrl} target="_blank" rel="noopener noreferrer" className="block relative w-full h-[90px] md:h-[120px] bg-gray-100 overflow-hidden border border-gray-200">
+              <LazyImage src={bottomBannerAd.imgUrl} alt={bottomBannerAd.title} fill className="object-cover w-full h-full" referrerPolicy="no-referrer" />
+              <span className="absolute top-0 right-0 bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded-bl">বিজ্ঞাপন</span>
+            </a>
+          </div>
+        )}
+
       </main>
       
       {/* Footer */}
