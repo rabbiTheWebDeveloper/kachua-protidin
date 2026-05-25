@@ -19,6 +19,62 @@ export interface Article {
   publishDate?: string;
 }
 
+export interface Category {
+  _id: string;
+  name: string;
+  slug: string;
+  isActive: boolean;
+}
+
+export interface AppUser {
+  _id: string;
+  username: string;
+  name: string;
+  role: 'admin' | 'reporter' | 'editor';
+  isActive: boolean;
+}
+
+export interface SiteSettings {
+  _id: string;
+  siteName: string;
+  description: string;
+  contactEmail: string;
+  socialLinks: {
+    facebook: string;
+    twitter: string;
+    youtube: string;
+  };
+}
+
+export const INITIAL_CATEGORIES: Category[] = [
+  { _id: 'cat-1', name: 'বিশেষ সংবাদ', slug: 'special', isActive: true },
+  { _id: 'cat-2', name: 'রাজনীতি', slug: 'politics', isActive: true },
+  { _id: 'cat-3', name: 'বাংলাদেশ', slug: 'bangladesh', isActive: true },
+  { _id: 'cat-4', name: 'অপরাধ', slug: 'crime', isActive: true },
+  { _id: 'cat-5', name: 'বিশ্ব', slug: 'world', isActive: true },
+  { _id: 'cat-6', name: 'বাণিজ্য', slug: 'business', isActive: true },
+  { _id: 'cat-7', name: 'মতামত', slug: 'opinion', isActive: true },
+  { _id: 'cat-8', name: 'খেলা', slug: 'sports', isActive: true },
+  { _id: 'cat-9', name: 'বিনোদন', slug: 'entertainment', isActive: true },
+];
+
+export const INITIAL_USERS: AppUser[] = [
+  { _id: 'usr-1', username: 'admin', name: 'প্রধান সম্পাদক', role: 'admin', isActive: true },
+  { _id: 'usr-2', username: 'reporter1', name: 'নিজস্ব প্রতিবেদক', role: 'reporter', isActive: true },
+];
+
+export const INITIAL_SETTINGS: SiteSettings = {
+  _id: 'settings-global',
+  siteName: 'কচুয়া প্রতিদিন',
+  description: 'চাঁদপুর জেলার কচুয়া উপজেলার স্থানীয় খবর, রাজনীতি, সমাজ, খেলাধুলা ও বস্তুনিষ্ঠ সংবাদের নির্ভরযোগ্য অনলাইন নিউজ পোর্টাল।',
+  contactEmail: 'info@kachuaprotidin.com',
+  socialLinks: {
+    facebook: 'https://facebook.com',
+    twitter: 'https://twitter.com',
+    youtube: 'https://youtube.com',
+  }
+};
+
 export const INITIAL_ARTICLES: Article[] = [
   {
     _id: "lead-1",

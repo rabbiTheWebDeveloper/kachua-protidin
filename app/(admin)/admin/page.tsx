@@ -10,6 +10,11 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getTotalPageViews } from '@/lib/analytics';
+import { DashboardSidebar } from './components/DashboardSidebar';
+import { TabCategories } from './components/TabCategories';
+import { TabUsers } from './components/TabUsers';
+import { TabSettings } from './components/TabSettings';
+import { LayoutDashboard } from 'lucide-react';
 
 interface Article {
   _id: string;
@@ -35,7 +40,7 @@ export default function AdminPage() {
   const [totalPageViews, setTotalPageViews] = useState<number>(0);
 
   // Active Admin View Tab
-  const [activePanelTab, setActivePanelTab] = useState<'news' | 'ads' | 'crawler'>('news');
+  const [activePanelTab, setActivePanelTab] = useState<'overview' | 'news' | 'categories' | 'ads' | 'users' | 'crawler' | 'settings'>('overview');
 
   // Ads Management States
   const [ads, setAds] = useState<any[]>([]);
@@ -60,6 +65,11 @@ export default function AdminPage() {
     message: 'এখনো স্ক্র্যাপ করা হয়নি'
   });
   const [scraperLoading, setScraperLoading] = useState(false);
+
+  // New Management States
+  const [categories, setCategories] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [settings, setSettings] = useState<any | null>(null);
 
   // Form State
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -129,6 +139,36 @@ export default function AdminPage() {
     } catch (err) {
       console.error('Error loading scraper status:', err);
     }
+  };
+
+  const loadCategories = async () => {
+    try {
+      const res = await fetch('/api/categories');
+      if (res.ok) {
+        const data = await res.json();
+        setCategories(data.categories || []);
+      }
+    } catch (err) { console.error(err); }
+  };
+
+  const loadUsers = async () => {
+    try {
+      const res = await fetch('/api/users');
+      if (res.ok) {
+        const data = await res.json();
+        setUsers(data.users || []);
+      }
+    } catch (err) { console.error(err); }
+  };
+
+  const loadSettings = async () => {
+    try {
+      const res = await fetch('/api/settings');
+      if (res.ok) {
+        const data = await res.json();
+        setSettings(data.settings || null);
+      }
+    } catch (err) { console.error(err); }
   };
 
   const handleScrapeLatest = async () => {
@@ -268,6 +308,9 @@ export default function AdminPage() {
               loadArticles(false);
               loadAds(false);
               fetchScraperStatus();
+              loadCategories();
+              loadUsers();
+              loadSettings();
             }
           } else {
             // Unauthenticated - redirect
@@ -503,38 +546,72 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Navigation Sub-Tabs */}
-      <div className="bg-white border-b border-gray-200 select-none shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 flex gap-4 md:gap-8">
-          <button 
-            onClick={() => setActivePanelTab('news')}
-            className={`py-4 px-2 font-bold text-sm md:text-base border-b-2 tracking-tight transition-all cursor-pointer flex items-center gap-2 ${activePanelTab === 'news' ? 'border-red-700 text-red-700 font-extrabold' : 'border-transparent text-gray-500 hover:text-gray-950'}`}
-          >
-            <FileText className="w-4 h-4" />
-            <span>সংবাদ ব্যবস্থাপনা ({articles.length})</span>
-          </button>
+      {/* Main Layout Container */}
+      <div className="flex flex-1 overflow-hidden h-[calc(100vh-68px)] relative">
+        <DashboardSidebar 
+          activeTab={activePanelTab} 
+          setActiveTab={setActivePanelTab} 
+          counts={{ news: articles.length, ads: ads.length, categories: categories.length, users: users.length }} 
+        />
+        
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-8 w-full">
           
-          <button 
-            onClick={() => setActivePanelTab('ads')}
-            className={`py-4 px-2 font-bold text-sm md:text-base border-b-2 tracking-tight transition-all cursor-pointer flex items-center gap-2 ${activePanelTab === 'ads' ? 'border-red-700 text-red-700 font-extrabold' : 'border-transparent text-gray-500 hover:text-gray-950'}`}
-          >
-            <Megaphone className="w-4 h-4" />
-            <span>বিজ্ঞাপন প্যানেল ({ads.length})</span>
-          </button>
-          
-          <button 
-            onClick={() => setActivePanelTab('crawler')}
-            className={`py-4 px-2 font-bold text-sm md:text-base border-b-2 tracking-tight transition-all cursor-pointer flex items-center gap-2 ${activePanelTab === 'crawler' ? 'border-red-700 text-red-700 font-extrabold' : 'border-transparent text-gray-500 hover:text-gray-950'}`}
-          >
-            <Cpu className="w-4 h-4" />
-            <span>নিউজ ক্রলার কন্ট্রোল</span>
-          </button>
-        </div>
-      </div>
+          {/* VIEW: OVERVIEW TAB */}
+          {activePanelTab === 'overview' && (
+            <div className="max-w-7xl mx-auto w-full animate-fade-in">
+              <h2 className="text-2xl font-black flex items-center gap-2 text-gray-900 mb-8 font-bangla border-b border-gray-200 pb-4">
+                <LayoutDashboard className="w-6 h-6 text-red-600" />
+                <span>ড্যাশবোর্ড ওভারভিউ</span>
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-center border-l-4 border-l-red-600">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 font-sans">সর্বমোট সংবাদ</span>
+                  <span className="text-4xl font-black text-gray-900">{articles.length}</span>
+                </div>
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-center border-l-4 border-l-blue-600">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 font-sans">ক্যাটাগরি সমূহ</span>
+                  <span className="text-4xl font-black text-gray-900">{categories.length}</span>
+                </div>
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-center border-l-4 border-l-green-600">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 font-sans">সক্রিয় ইউজার</span>
+                  <span className="text-4xl font-black text-gray-900">{users.length}</span>
+                </div>
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-center border-l-4 border-l-orange-500 group">
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 font-sans">সর্বমোট পেজ ভিউ</span>
+                  <span className="text-4xl font-black text-orange-700">{totalPageViews}</span>
+                </div>
+              </div>
+              
+              <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
+                <h3 className="font-bold text-lg text-gray-900 mb-4 font-bangla border-b border-gray-100 pb-2">সিস্টেম ইনফরমেশন</h3>
+                <div className="space-y-3 font-sans text-sm">
+                  <p><strong>ডাটাবেজ স্ট্যাটাস:</strong> {dbSource === 'mongodb' ? <span className="text-green-600">Live (MongoDB Connected)</span> : <span className="text-yellow-600">Fallback Local Mode</span>}</p>
+                  <p><strong>অ্যাডমিন ইউজার:</strong> {currentUser?.name || currentUser?.username || 'Unknown'}</p>
+                  <p><strong>ক্রলার স্ট্যাটাস:</strong> {scraperStatus.isRunning ? 'Active' : 'Standby'} ({scraperStatus.lastRun > 0 ? new Date(scraperStatus.lastRun).toLocaleString('bn-BD', {hour12: true}) : 'Never'})</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* VIEW: CATEGORIES TAB */}
+          {activePanelTab === 'categories' && (
+            <TabCategories categories={categories} loadCategories={loadCategories} showNotif={showNotif} />
+          )}
+
+          {/* VIEW: USERS TAB */}
+          {activePanelTab === 'users' && (
+            <TabUsers users={users} loadUsers={loadUsers} showNotif={showNotif} />
+          )}
+
+          {/* VIEW: SETTINGS TAB */}
+          {activePanelTab === 'settings' && (
+            <TabSettings settings={settings} loadSettings={loadSettings} showNotif={showNotif} />
+          )}
 
       {/* VIEW: NEWS MANAGEMENT TAB */}
       {activePanelTab === 'news' && (
-        <div className="max-w-7xl mx-auto px-4 py-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in">
         
         {/* Left Column - Article Form (4 Cols) */}
         <div className="lg:col-span-4 bg-white p-6 rounded-xl border border-gray-200 shadow-sm h-fit sticky lg:top-20">
@@ -576,15 +653,10 @@ export default function AdminPage() {
                 onChange={(e) => setCategory(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-red-600 cursor-pointer"
               >
-                <option value="विशेष সংবাদ">विशेष সংবাদ</option>
-                <option value="রাজনীতি">রাজনীতি</option>
-                <option value="বাংলাদেশ">বাংলাদেশ</option>
-                <option value="অপরাধ">অপরাধ</option>
-                <option value="বিশ্ব">বিশ্ব</option>
-                <option value="বাণিজ্য">বাণিজ্য</option>
-                <option value="মতামত">মতামত</option>
-                <option value="খেলা">খেলা</option>
-                <option value="বিনোদন">বিনোদন</option>
+                <option value="বিশেষ সংবাদ">বিশেষ সংবাদ</option>
+                {categories.map((cat: any) => (
+                  <option key={cat._id} value={cat.name}>{cat.name}</option>
+                ))}
               </select>
             </div>
 
@@ -1261,6 +1333,9 @@ export default function AdminPage() {
 
         </div>
       )}
+
+        </main>
+      </div>
 
       <footer className="bg-white border-t border-gray-200 py-6 mt-auto">
         <div className="max-w-7xl mx-auto px-4 text-center text-xs text-gray-400 font-medium">
