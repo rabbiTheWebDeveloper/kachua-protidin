@@ -723,6 +723,66 @@ export default function AdminPage() {
             </div>
           </div>
 
+          {/* Prothom Alo Crawler Widget */}
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 relative overflow-hidden flex flex-col md:flex-row gap-6 items-center justify-between mt-6">
+            <div className="space-y-2 flex-1 w-full">
+              <h3 className="text-xl font-black text-gray-900 flex items-center gap-2">
+                <Cpu className="w-6 h-6 text-red-600 animate-spin-slow" />
+                <span>প্রথম আলো রিয়েল-টাইম ক্রলার</span>
+              </h3>
+              <p className="text-sm text-gray-500 font-medium font-sans">
+                এই পোর্টালটি প্রতি ৩০ মিনিটে স্বয়ংক্রিয়ভাবে প্রথম আলোর সর্বশেষ সংবাদ সংগ্রহ ও ডেটাবেজে সংরক্ষণ করে।
+              </p>
+              
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-100">
+                <div>
+                  <div className="text-[11px] font-bold text-gray-400 uppercase font-sans">ক্রলার স্ট্যাটাস:</div>
+                  <div className={`text-sm font-bold mt-0.5 flex items-center gap-1.5 ${scraperStatus.isRunning ? 'text-yellow-600' : 'text-green-600'}`}>
+                    <span className={`w-2 h-2 rounded-full ${scraperStatus.isRunning ? 'bg-yellow-500 animate-ping' : 'bg-green-500'}`}></span>
+                    {scraperStatus.isRunning ? 'স্ক্র্যাপিং চলছে...' : 'সংযুক্ত/সক্রিয় রয়েছে'}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold text-gray-400 uppercase font-sans">শেষ রানিং সময়:</div>
+                  <div className="text-sm font-bold text-gray-800 mt-0.5">
+                    {scraperStatus.lastRun > 0 ? new Date(scraperStatus.lastRun).toLocaleString('bn-BD', {hour12: true}) : 'কখনোই নয়'}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold text-gray-400 uppercase font-sans">সংগৃহীত খবর:</div>
+                  <div className="text-sm font-bold text-gray-800 mt-0.5">
+                    {scraperStatus.count || 0} টি <span className="text-[10px] text-gray-400 font-normal">(শেষ ক্রল রান)</span>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold text-gray-400 uppercase font-sans">বর্তমান অবস্থা:</div>
+                  <div className="text-sm font-bold text-gray-600 mt-0.5 truncate max-w-[150px]" title={scraperStatus.message || 'এখনো স্ক্র্যাপ করা হয়নি'}>
+                    {scraperStatus.message || 'এখনো স্ক্র্যাপ করা হয়নি'}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="shrink-0 w-full md:w-auto">
+              <button
+                onClick={handleScrapeLatest}
+                disabled={scraperLoading || scraperStatus.isRunning}
+                className={`w-full md:w-auto px-6 py-3 rounded-lg text-white font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-md active:scale-95 cursor-pointer ${
+                  scraperLoading || scraperStatus.isRunning 
+                    ? 'bg-red-800/80 cursor-wait' 
+                    : 'bg-red-700 hover:bg-red-800'
+                }`}
+              >
+                {scraperLoading || scraperStatus.isRunning ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <RefreshCw className="w-5 h-5" />
+                )}
+                <span>ক্রলার রিফ্রেশ করুন</span>
+              </button>
+            </div>
+          </div>
+
           {/* Toast Notification Alert */}
           {notif && (
             <div className={`p-4 rounded-xl flex items-center gap-3 border shadow-sm ${notif.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
